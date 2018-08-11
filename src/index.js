@@ -1,4 +1,5 @@
 const shell = require('shelljs')
+const chalk = require('chalk')
 const Aigle = require('aigle')
 
 const execute = command => {
@@ -34,15 +35,27 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
     )
     try {
       console.log(
-        '\n\nGoing to run the following commands in parallel \n',
-        commandsToRunInParallel.join('\n'),
-        '\n'
+        `\n\nGoing to run the following commands in parallel \n${commandsToRunInParallel.join('\n')}\n`
       )
 
       const results = await executeInParallel(commandsToRunInParallel)
-      console.log('\nResults\n', results)
+      console.log('\nOutput of the commands:\n')
+      results.forEach(result => {
+        console.log(chalk.blueBright(`Result of running the below command:`))
+        console.log(`$ ${result.command}\n`)
+
+        if (result.exitCode !== 0) {
+          console.log(chalk.red(`It failed with exit code ${result.exitCode}\n`))
+        }
+
+        console.log(chalk.green(`Stdout: \n`))
+        console.log(result.stdout)
+        console.log(chalk.red(`Stderr: \n`))
+        console.log(result.stderr)
+      })
     } catch (error) {
-      console.log('ERROR', error)
+      console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
+      console.log(chalk.blueBright('\n\nThe next set of commands will still continue to run! :D'))
     }
   }
 }
