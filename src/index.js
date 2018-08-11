@@ -53,12 +53,12 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
 
         const { stdout, stderr } = result
         if (!_.isEmpty(_.trim(stdout))) {
-          console.log(chalk.green(`Stdout: \n`))
+          console.log(chalk.green(`Stdout:`))
           console.log(stdout)
         }
 
         if (!_.isEmpty(_.trim(stderr))) {
-          console.log(chalk.red(`Stderr: \n`))
+          console.log(chalk.red(`Stderr:`))
           console.log(stderr)
         }
       })
