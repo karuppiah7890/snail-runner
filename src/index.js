@@ -1,6 +1,7 @@
 const shell = require('shelljs')
 const chalk = require('chalk')
 const Aigle = require('aigle')
+const _ = require('lodash')
 
 const execute = command => {
   return new Aigle(resolve => {
@@ -50,10 +51,16 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
           console.log(chalk.green(`It ran successfully with no errors! :D\n`))
         }
 
-        console.log(chalk.green(`Stdout: \n`))
-        console.log(result.stdout)
-        console.log(chalk.red(`Stderr: \n`))
-        console.log(result.stderr)
+        const { stdout, stderr } = result
+        if (!_.isEmpty(_.trim(stdout))) {
+          console.log(chalk.green(`Stdout: \n`))
+          console.log(stdout)
+        }
+
+        if (!_.isEmpty(_.trim(stderr))) {
+          console.log(chalk.red(`Stderr: \n`))
+          console.log(stderr)
+        }
       })
     } catch (error) {
       console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
