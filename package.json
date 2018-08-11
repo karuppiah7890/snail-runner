@@ -1,5 +1,5 @@
 {
-  "name": "snail",
+  "name": "snail-runner",
   "version": "0.0.1",
   "description": "Snail runs a lot of shell commands in parallel and shows the output for each of them",
   "main": "index.js",

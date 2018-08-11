@@ -1,6 +1,6 @@
-# Snail
+# Snail Runner
 
-Snail is meant to run many shell commands in parallel and then give output for each of them. Example:
+Snail Runner is meant to run many shell commands in parallel and then give output for each of them. Example:
 
 ```sh
 $ node src/index.js 'sleep 5' 'sleep 20' 'sleep 15' 'sleep 10'
