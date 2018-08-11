@@ -60,8 +60,6 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
   }
 }
 
-const { NUMBER_OF_PARALLEL_COMMANDS = 5 } = process.env
-const numberOfParallelCommands = Number(NUMBER_OF_PARALLEL_COMMANDS)
-const allCommands = process.argv.slice(2)
-
-executeAll(allCommands, numberOfParallelCommands)
+module.exports = {
+  executeAll
+}
