@@ -46,6 +46,8 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
 
         if (result.exitCode !== 0) {
           console.log(chalk.red(`It failed with exit code ${result.exitCode}\n`))
+        } else {
+          console.log(chalk.green(`It ran successfully with no errors! :D\n`))
         }
 
         console.log(chalk.green(`Stdout: \n`))
