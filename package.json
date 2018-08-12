@@ -18,7 +18,7 @@
     "async"
   ],
   "author": "Karuppiah",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",
     "cliui": "^4.1.0",
