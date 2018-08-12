@@ -44,23 +44,27 @@ const executeAll = async (commands, numberOfParallelCommands, debug = false) => 
 
       console.log(chalk.yellow('\n***Running the following commands***'))
 
-      const commandsTableUI = UI({
-        width: 40
-      })
+      const commandsTableUI = UI()
 
       commandsTableUI.div(
-        { text: chalk.yellow('CommandID') },
+        {
+          text: chalk.yellow('CommandID'),
+          width: 20
+        },
         { text: chalk.yellow('Command') }
       )
 
       commands.forEach((command, commandID) => {
         commandsTableUI.div(
-          { text: chalk.yellow(commandID) },
+          {
+            text: chalk.yellow(commandID),
+            width: 20
+          },
           { text: chalk.blueBright(command) }
         )
       })
 
-      console.log(chalk.yellow(commandsTableUI.toString()))
+      console.log(chalk.yellow(commandsTableUI.toString()), '\n\n')
     }
 
     const executeWithDebug = executeFuncWithDebug(debug)
