@@ -1,10 +1,12 @@
 const shell = require('shelljs')
 const chalk = require('chalk')
-const Aigle = require('aigle')
+const pLimit = require('p-limit')
 const _ = require('lodash')
 
 const execute = command => {
-  return new Aigle(resolve => {
+  return new Promise((resolve) => {
+    console.log(chalk.yellow('\nStarted running: '), chalk.blueBright(command));
+
     shell.exec(command, { silent: true }, (exitCode, stdout, stderr) => {
       resolve({
         command,
@@ -16,33 +18,16 @@ const execute = command => {
   })
 }
 
-const executeInParallel = commands => {
-  return new Aigle((resolve, reject) => {
-    Aigle.parallel(commands.map(command => execute(command)))
-      .then(results => {
-        resolve(results)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
+const executeAll = async (commands, numberOfParallelCommands) => {
+  try {
+      console.log(chalk.yellow('The output of all the commands will be shown after running them all'))
+      const limit = pLimit(numberOfParallelCommands)
+      const commandsToRunInParallel = commands.map(command => limit(() => execute(command)))
 
-const executeAll = async (allCommands, numberOfParallelCommands) => {
-  for (let i = 0; i < allCommands.length; i += numberOfParallelCommands) {
-    const commandsToRunInParallel = allCommands.slice(
-      i,
-      i + numberOfParallelCommands
-    )
-    try {
-      console.log(
-        `\n\nGoing to run the following commands in parallel \n${commandsToRunInParallel.join('\n')}\n`
-      )
-
-      const results = await executeInParallel(commandsToRunInParallel)
+      const results = await Promise.all(commandsToRunInParallel)
       console.log('\nOutput of the commands:\n')
       results.forEach(result => {
-        console.log(chalk.blueBright(`Result of running the below command:`))
+        console.log(chalk.blueBright('Result of running the below command:'))
         console.log(`$ ${result.command}\n`)
 
         if (result.exitCode !== 0) {
@@ -66,7 +51,6 @@ const executeAll = async (allCommands, numberOfParallelCommands) => {
       console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
       console.log(chalk.blueBright('\n\nThe next set of commands will still continue to run! :D'))
     }
-  }
 }
 
 module.exports = {
