@@ -1,6 +1,6 @@
 const shell = require('shelljs')
 const chalk = require('chalk')
-const pLimit = require('p-limit')
+const pMap = require('p-map')
 const _ = require('lodash')
 var UI = require('cliui')
 
@@ -27,6 +27,12 @@ const execute = (command, commandID, debug = false) => {
       })
     }
   })
+}
+
+const executeFuncWithDebug = (debug = false) => {
+  return (command, commandID) => {
+    return execute(command, commandID, debug)
+  }
 }
 
 const executeAll = async (commands, numberOfParallelCommands, debug = false) => {
@@ -57,10 +63,9 @@ const executeAll = async (commands, numberOfParallelCommands, debug = false) => 
       console.log(chalk.yellow(commandsTableUI.toString()))
     }
 
-    const limit = pLimit(numberOfParallelCommands)
-    const commandsToRunInParallel = commands.map((command, commandID) => limit(() => execute(command, commandID, debug)))
+    const executeWithDebug = executeFuncWithDebug(debug)
+    const results = await pMap(commands, executeWithDebug, { concurrency: numberOfParallelCommands })
 
-    const results = await Promise.all(commandsToRunInParallel)
     console.log('\nOutput of the commands:\n')
     results.forEach(result => {
       console.log(chalk.yellow('Result of running the below command:'))

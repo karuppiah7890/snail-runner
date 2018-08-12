@@ -23,7 +23,7 @@
     "chalk": "^2.4.1",
     "cliui": "^4.1.0",
     "lodash": "^4.17.10",
-    "p-limit": "^2.0.0",
+    "p-map": "^1.2.0",
     "shelljs": "^0.8.2"
   },
   "devDependencies": {
