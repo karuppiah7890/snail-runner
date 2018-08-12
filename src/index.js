@@ -64,7 +64,7 @@ const executeAll = async (commands, numberOfParallelCommands, debug = false) => 
         )
       })
 
-      console.log(chalk.yellow(commandsTableUI.toString()), '\n\n')
+      console.log(commandsTableUI.toString(), '\n\n')
     }
 
     const executeWithDebug = executeFuncWithDebug(debug)
