@@ -94,7 +94,6 @@ const executeAll = async (commands, numberOfParallelCommands, debug = false) => 
     })
   } catch (error) {
     console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
-    console.log(chalk.blueBright('\n\nThe next set of commands will still continue to run! :D'))
   }
 }
 
