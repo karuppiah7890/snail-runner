@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 const { executeAll } = require('../src/index.js')
-var UI = require('cliui')
 const chalk = require('chalk')
 const _ = require('lodash')
+const { logDebugInfo } = require('../src/log.js')
 
 const { NUMBER_OF_PARALLEL_COMMANDS = 5, SNAIL_DEBUG: debug = false } = process.env
 const numberOfParallelCommands = Number(NUMBER_OF_PARALLEL_COMMANDS)
@@ -13,31 +13,7 @@ const run = async () => {
   console.log(chalk.yellow('The complete output of all the commands will be shown after running them all'))
 
   if (debug) {
-    console.log(chalk.yellow('\n***Running in DEBUG mode. Commands will be given an ID and the output of the parallely running\n commands will be shown in an interleaved manner while they are executing, with their command ID prefixed***'))
-
-    console.log(chalk.yellow('\n***Running the following commands***'))
-
-    const commandsTableUI = UI()
-
-    commandsTableUI.div(
-      {
-        text: chalk.yellow('CommandID'),
-        width: 20
-      },
-      { text: chalk.yellow('Command') }
-    )
-
-    allCommands.forEach((command, commandID) => {
-      commandsTableUI.div(
-        {
-          text: chalk.yellow(commandID),
-          width: 20
-        },
-        { text: chalk.blueBright(command) }
-      )
-    })
-
-    console.log(commandsTableUI.toString(), '\n\n')
+    logDebugInfo(allCommands)
   }
 
   try {
