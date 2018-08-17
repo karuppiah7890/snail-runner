@@ -1,7 +1,7 @@
 {
   "name": "snail-runner",
   "version": "0.0.3",
-  "description": "Snail runs a lot of shell commands in parallel and shows the output for each of them",
+  "description": "snail-runner runs a lot of shell commands in parallel",
   "bin": {
     "snail-runner": "./bin/snail-runner.js"
   },
