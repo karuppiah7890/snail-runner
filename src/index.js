@@ -10,6 +10,7 @@ const createCommandDebugOutputHandlerWithCommandID = (commandID) => {
     dataLines.forEach((dataLine) => {
       console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
     })
+    console.log()
   }
 }
 
