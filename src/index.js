@@ -7,6 +7,7 @@ const execute = (command, commandID, debug = false) => {
     console.log(chalk.yellow('\nStarted running: '), chalk.blueBright(command))
 
     const child = shell.exec(command, { silent: true }, (exitCode, stdout, stderr) => {
+      console.log(chalk.yellow('\nFinished running: '), chalk.blueBright(command))
       resolve({
         command,
         exitCode,
