@@ -19,7 +19,7 @@ const run = async () => {
   try {
     const results = await executeAll(allCommands, numberOfParallelCommands, debug)
 
-    console.log('\nOutput of the commands:\n')
+    console.log(chalk.yellow('\nOutput of the commands:\n'))
     results.forEach(result => {
       console.log(chalk.yellow('Result of running the below command:'))
       console.log(`$ ${chalk.blueBright(result.command)}\n`)
