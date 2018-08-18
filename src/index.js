@@ -1,6 +1,17 @@
 const shell = require('shelljs')
 const chalk = require('chalk')
 const pMap = require('p-map')
+const _ = require('lodash')
+
+const createCommandDebugOutputHandlerWithCommandID = (commandID) => {
+  return (data) => {
+    // handling multi-line output from commands
+    const dataLines = data.split('\n')
+    dataLines.forEach((dataLine) => {
+      console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
+    })
+  }
+}
 
 const execute = (command, commandID, debug = false) => {
   return new Promise((resolve) => {
@@ -16,21 +27,11 @@ const execute = (command, commandID, debug = false) => {
       })
     })
 
+    const commandDebugOutputHandler = createCommandDebugOutputHandlerWithCommandID(commandID)
+
     if (debug) {
-      child.stdout.on('data', function (data) {
-        // handling multi-line output from commands
-        const dataLines = data.split('\n')
-        dataLines.forEach((dataLine) => {
-          console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
-        })
-      })
-      child.stderr.on('data', function (data) {
-        // handling multi-line output from commands
-        const dataLines = data.split('\n')
-        dataLines.forEach((dataLine) => {
-          console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
-        })
-      })
+      child.stdout.on('data', commandDebugOutputHandler)
+      child.stderr.on('data', commandDebugOutputHandler)
     }
   })
 }
