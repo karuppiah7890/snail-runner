@@ -24,6 +24,13 @@ const execute = (command, commandID, debug = false) => {
           console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
         })
       })
+      child.stderr.on('data', function (data) {
+        // handling multi-line output from commands
+        const dataLines = data.split('\n')
+        dataLines.forEach((dataLine) => {
+          console.log(`${chalk.yellow(`${commandID}: `)}`, dataLine)
+        })
+      })
     }
   })
 }
