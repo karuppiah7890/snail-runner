@@ -1,7 +1,6 @@
 const shell = require('shelljs')
 const chalk = require('chalk')
 const pMap = require('p-map')
-const _ = require('lodash')
 
 const createCommandDebugOutputHandlerWithCommandID = (commandID) => {
   return (data) => {
