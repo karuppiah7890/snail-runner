@@ -16,34 +16,36 @@ const run = async () => {
     logDebugInfo(allCommands)
   }
 
+  let results = []
+
   try {
-    const results = await executeAll(allCommands, numberOfParallelCommands, debug)
-
-    console.log(chalk.yellow('\nOutput of the commands:\n'))
-    results.forEach(result => {
-      console.log(chalk.yellow('Result of running the below command:'))
-      console.log(`$ ${chalk.blueBright(result.command)}\n`)
-
-      if (result.exitCode !== 0) {
-        console.log(chalk.red(`It failed with exit code ${result.exitCode}\n`))
-      } else {
-        console.log(chalk.green(`It ran successfully with no errors! :D\n`))
-      }
-
-      const { stdout, stderr } = result
-      if (!_.isEmpty(_.trim(stdout))) {
-        console.log(chalk.green(`Stdout:`))
-        console.log(stdout)
-      }
-
-      if (!_.isEmpty(_.trim(stderr))) {
-        console.log(chalk.red(`Stderr:`))
-        console.log(stderr)
-      }
-    })
+    results = await executeAll(allCommands, numberOfParallelCommands, debug)
   } catch (error) {
     console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
   }
+
+  console.log(chalk.yellow('\nOutput of the commands:\n'))
+  results.forEach(result => {
+    console.log(chalk.yellow('Result of running the below command:'))
+    console.log(`$ ${chalk.blueBright(result.command)}\n`)
+
+    if (result.exitCode !== 0) {
+      console.log(chalk.red(`It failed with exit code ${result.exitCode}\n`))
+    } else {
+      console.log(chalk.green(`It ran successfully with no errors! :D\n`))
+    }
+
+    const { stdout, stderr } = result
+    if (!_.isEmpty(_.trim(stdout))) {
+      console.log(chalk.green(`Stdout:`))
+      console.log(stdout)
+    }
+
+    if (!_.isEmpty(_.trim(stderr))) {
+      console.log(chalk.red(`Stderr:`))
+      console.log(stderr)
+    }
+  })
 }
 
 run()
