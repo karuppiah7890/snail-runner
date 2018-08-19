@@ -22,6 +22,7 @@ const run = async () => {
     results = await executeAll(allCommands, numberOfParallelCommands, debug)
   } catch (error) {
     console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
+    process.exit(1)
   }
 
   console.log(chalk.yellow('\nOutput of the commands:\n'))
