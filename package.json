@@ -1,6 +1,6 @@
 {
   "name": "snail-runner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "snail-runner runs a lot of shell commands in parallel",
   "bin": {
     "snail-runner": "./bin/snail-runner.js"
