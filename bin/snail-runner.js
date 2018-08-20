@@ -49,6 +49,16 @@ const run = async () => {
       console.log(stderr)
     }
   })
+
+  const resultsOfFailedCommands = results.filter(result => result.exitCode !== 0)
+
+  if (!_.isEmpty(resultsOfFailedCommands)) {
+    console.log(chalk.red('\nThe following commands failed:\n'))
+    resultsOfFailedCommands.forEach(failedCommandResult => {
+      console.log(` $ ${chalk.blueBright(failedCommandResult.command)}`)
+    })
+    process.exit(1)
+  }
 }
 
 run()
