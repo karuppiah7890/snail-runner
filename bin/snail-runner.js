@@ -6,8 +6,9 @@ const _ = require('lodash')
 const { logDebugInfo } = require('../src/log.js')
 const pkg = require('../package.json')
 
-const { NUMBER_OF_PARALLEL_COMMANDS = 5, SNAIL_DEBUG: debug = false } = process.env
+const { NUMBER_OF_PARALLEL_COMMANDS = 5, SNAIL_DEBUG = false } = process.env
 const numberOfParallelCommands = Number(NUMBER_OF_PARALLEL_COMMANDS)
+const debug = SNAIL_DEBUG === '1' || SNAIL_DEBUG === 'true'
 const allCommands = process.argv.slice(2)
 
 const run = async () => {
