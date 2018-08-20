@@ -4,6 +4,7 @@ const { executeAll } = require('../src/index.js')
 const chalk = require('chalk')
 const _ = require('lodash')
 const { logDebugInfo } = require('../src/log.js')
+const pkg = require('../package.json')
 
 const { NUMBER_OF_PARALLEL_COMMANDS = 5, SNAIL_DEBUG: debug = false } = process.env
 const numberOfParallelCommands = Number(NUMBER_OF_PARALLEL_COMMANDS)
@@ -22,6 +23,7 @@ const run = async () => {
     results = await executeAll(allCommands, numberOfParallelCommands, debug)
   } catch (error) {
     console.log(chalk.red('An error occurred while running the commands in parallel: \n'), error)
+    console.log(`\nPlease raise a issue with the above error information at : ${pkg.bugs.url}\n`)
     process.exit(1)
   }
 
@@ -53,10 +55,12 @@ run()
 
 process.on('uncaughtException', error => {
   console.error(error)
+  console.log(`\nPlease raise a issue with the above error information at : ${pkg.bugs.url}\n`)
   process.exit(1)
 })
 
 process.on('unhandledRejection', reason => {
   console.error(reason)
+  console.log(`\nPlease raise a issue with the above error information at : ${pkg.bugs.url}\n`)
   process.exit(1)
 })
